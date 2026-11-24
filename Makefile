@@ -3,7 +3,7 @@ PYTHON = $(VENV)/Scripts/python.exe
 PIP = $(VENV)/Scripts/pip.exe
 PY_REQ = requirements.txt
 
-.PHONY: install check clean
+.PHONY: install check clean pep
 
 install: $(VENV)/pyvenv.cfg
 
@@ -18,3 +18,6 @@ check:
 clean:
 	@if exist __pycache__ rmdir /s /q __pycache__
 	@if exist venv rmdir /s /q venv
+
+pep:
+	@$(PYTHON) -m pycodestyle *.py
