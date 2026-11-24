@@ -1,6 +1,7 @@
 import logging
 import socket
 import argparse
+import struct
 
 log_level: int = logging.DEBUG
 
@@ -50,9 +51,17 @@ if __name__ == "__main__":
             with connection:
                 logging.info("Connected with %s", address)
 
-                # Print message from client, if available
-                data = connection.recv(1024)
-                if data:
-                    print(data.decode(UTF8))
+                # Receive data from client, if available and extract file name
+                o_file_name_len = struct.unpack("!I", connection.recv(4))[0]
+                if o_file_name_len:
+                    o_file_name = connection.recv(o_file_name_len).decode(UTF8)
+                    logging.info("Received %s from client", o_file_name)
+
+                    # Read file to end of transmission
+                    while True:
+                        data = connection.recv(1024)
+                        if not data:
+                            break
+                        print(data.decode(UTF8))
 
     print("> Shutting down")
