@@ -10,6 +10,7 @@ if __name__ == "__main__":
     PORT = 8001
     TOUT = 5
 
+    # Setup logger
     logging.basicConfig(
         level=log_level,
         format="> %(asctime)s %(levelname)s: %(message)s"
