@@ -1,4 +1,5 @@
 import logging
+import socket
 
 log_level: int = logging.DEBUG
 
@@ -15,5 +16,24 @@ if __name__ == "__main__":
         level=log_level,
         format="> %(asctime)s %(levelname)s: %(message)s"
     )
+
+    # Listen for incoming connections
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
+        server.bind((HOST, PORT))
+        # Only one client is served
+        server.listen(1)
+        server.settimeout(TOUT)
+
+        logging.info("Listening on %s:%d ...", HOST, PORT)
+
+        try:
+            connection, address = server.accept()
+        except TimeoutError:
+            # No connection established. Exiting
+            logging.warning("No client appeared within %d seconds", TOUT)
+        else:
+            # Succesful connection
+            with connection:
+                logging.info("Connected with %s", address)
 
     print("> Shutting down")
