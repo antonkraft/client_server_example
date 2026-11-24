@@ -2,6 +2,7 @@ import logging
 import socket
 import argparse
 import struct
+from pathlib import Path
 
 log_level: int = logging.DEBUG
 
@@ -57,11 +58,15 @@ if __name__ == "__main__":
                     o_file_name = connection.recv(o_file_name_len).decode(UTF8)
                     logging.info("Received %s from client", o_file_name)
 
-                    # Read file to end of transmission
-                    while True:
-                        data = connection.recv(1024)
-                        if not data:
-                            break
-                        print(data.decode(UTF8))
+                    o_file = Path(o_file_name)
+
+                    # Store transmitted file
+                    with o_file.open("wb") as file:
+                        # Read file to end of transmission
+                        while True:
+                            data = connection.recv(1024)
+                            if not data:
+                                break
+                            file.write(data)
 
     print("> Shutting down")
