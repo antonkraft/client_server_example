@@ -24,6 +24,12 @@ if __name__ == "__main__":
     parser.add_argument("--port", type=int, required=False, default=PORT)
     parser.add_argument("--timeout", type=int, required=False, default=TOUT)
 
+    # Read args
+    args = parser.parse_args()
+    HOST = args.host
+    PORT = args.port
+    TOUT = args.timeout
+
     # Attempting connection to server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
 

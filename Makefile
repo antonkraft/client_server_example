@@ -26,4 +26,4 @@ runS:
 	@$(PYTHON) server.py
 
 runC:
-	@$(PYTHON) client.py
+	@$(PYTHON) client.py $(ARGS)
