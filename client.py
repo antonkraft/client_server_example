@@ -64,4 +64,7 @@ if __name__ == "__main__":
                 while chunk := file.read(1024):
                     client.sendall(chunk)
 
+            # Signal end of transmission
+            client.shutdown(socket.SHUT_WR)
+
     print("> Exiting")
