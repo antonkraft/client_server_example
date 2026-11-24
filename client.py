@@ -2,6 +2,7 @@ import logging
 import socket
 import argparse
 from pathlib import Path
+import struct
 
 log_level: int = logging.DEBUG
 
@@ -12,6 +13,7 @@ if __name__ == "__main__":
     HOST = "127.0.0.1"
     PORT = 8001
     TOUT = 5
+    UTF8 = "utf-8"
 
     # Setup logger
     logging.basicConfig(
@@ -39,7 +41,8 @@ if __name__ == "__main__":
         client.settimeout(TOUT)
 
         # Data for transfer
-        message = b"Ehlo Server"
+        i_file_name = i_file.name.encode(UTF8)
+        logging.debug("Opened %s", i_file_name)
 
         try:
             logging.info("Connecting to %s:%d ...", HOST, PORT)
@@ -53,6 +56,12 @@ if __name__ == "__main__":
         else:
             # Succesful connection
             logging.info("Connected to server %s:%d", HOST, PORT)
-            client.sendall(message)
+
+            # Package and send content in 1KB chunks
+            client.sendall(struct.pack("!I", len(i_file_name)))
+            client.sendall(i_file_name)
+            with i_file.open("rb") as file:
+                while chunk := file.read(1024):
+                    client.sendall(chunk)
 
     print("> Exiting")
