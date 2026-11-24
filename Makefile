@@ -9,7 +9,7 @@ PY_REQ = requirements.txt
 INPUT_FILE ?= test_input.txt
 OUTPUT_DIR ?= test_output
 OUTPUT_FILE ?= $(OUTPUT_DIR)/$(INPUT_FILE)
-FILE_SIZE ?= 5242880
+FILE_SIZE ?= 524288000
 
 .PHONY: install check clean pep runS runC test
 
