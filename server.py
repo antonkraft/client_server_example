@@ -26,12 +26,14 @@ if __name__ == "__main__":
     parser.add_argument("--host", type=str, required=False, default=HOST)
     parser.add_argument("--port", type=int, required=False, default=PORT)
     parser.add_argument("--timeout", type=int, required=False, default=TOUT)
+    parser.add_argument("--output", type=Path, required=True)
 
     # Read args
     args = parser.parse_args()
     HOST = args.host
     PORT = args.port
     TOUT = args.timeout
+    o_dir = args.output
 
     # Listen for incoming connections
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
@@ -58,7 +60,9 @@ if __name__ == "__main__":
                     o_file_name = connection.recv(o_file_name_len).decode(UTF8)
                     logging.info("Received %s from client", o_file_name)
 
-                    o_file = Path(o_file_name)
+                    # Create File path
+                    o_dir.mkdir(exist_ok=True)
+                    o_file = o_dir / Path(o_file_name)
 
                     # Store transmitted file
                     with o_file.open("wb") as file:
