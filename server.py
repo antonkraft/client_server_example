@@ -1,5 +1,6 @@
 import logging
 import socket
+import argparse
 
 log_level: int = logging.DEBUG
 
@@ -17,6 +18,12 @@ if __name__ == "__main__":
         level=log_level,
         format="> %(asctime)s %(levelname)s: %(message)s"
     )
+
+    # Define arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--host", type=str, required=False, default=HOST)
+    parser.add_argument("--port", type=int, required=False, default=PORT)
+    parser.add_argument("--timeout", type=int, required=False, default=TOUT)
 
     # Listen for incoming connections
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
