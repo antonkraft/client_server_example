@@ -10,6 +10,7 @@ if __name__ == "__main__":
     HOST = "127.0.0.1"
     PORT = 8001
     TOUT = 5
+    UTF8 = "utf-8"
 
     # Setup logger
     logging.basicConfig(
@@ -35,5 +36,10 @@ if __name__ == "__main__":
             # Succesful connection
             with connection:
                 logging.info("Connected with %s", address)
+
+                # Print message from client, if available
+                data = connection.recv(1024)
+                if data:
+                    print(data.decode(UTF8))
 
     print("> Shutting down")

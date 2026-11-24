@@ -22,6 +22,9 @@ if __name__ == "__main__":
 
         client.settimeout(TOUT)
 
+        # Data for transfer
+        message = b"Ehlo Server"
+
         try:
             logging.info("Connecting to %s:%d ...", HOST, PORT)
             client.connect((HOST, PORT))
@@ -34,5 +37,6 @@ if __name__ == "__main__":
         else:
             # Succesful connection
             logging.info("Connected to server %s:%d", HOST, PORT)
+            client.sendall(message)
 
     print("> Exiting")
