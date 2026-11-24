@@ -64,13 +64,21 @@ if __name__ == "__main__":
                     o_dir.mkdir(exist_ok=True)
                     o_file = o_dir / Path(o_file_name)
 
-                    # Store transmitted file
-                    with o_file.open("wb") as file:
-                        # Read file to end of transmission
-                        while True:
-                            data = connection.recv(1024)
-                            if not data:
-                                break
-                            file.write(data)
+                    # Check if file already exists
+                    if o_file.exists():
+                        # Don't ovveride it
+                        logging.info(
+                                "File %s already exists. Won't ovveride",
+                                o_file
+                        )
+                    else:
+                        # Store transmitted file
+                        with o_file.open("wb") as file:
+                            # Read file to end of transmission
+                            while True:
+                                data = connection.recv(1024)
+                                if not data:
+                                    break
+                                file.write(data)
 
     print("> Shutting down")
