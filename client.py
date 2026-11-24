@@ -1,6 +1,7 @@
 import logging
 import socket
 import argparse
+from pathlib import Path
 
 log_level: int = logging.DEBUG
 
@@ -23,12 +24,14 @@ if __name__ == "__main__":
     parser.add_argument("--host", type=str, required=False, default=HOST)
     parser.add_argument("--port", type=int, required=False, default=PORT)
     parser.add_argument("--timeout", type=int, required=False, default=TOUT)
+    parser.add_argument("--input", type=Path, required=True)
 
     # Read args
     args = parser.parse_args()
     HOST = args.host
     PORT = args.port
     TOUT = args.timeout
+    i_file = args.input
 
     # Attempting connection to server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as client:
