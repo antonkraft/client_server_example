@@ -23,7 +23,7 @@ pep:
 	@$(PYTHON) -m pycodestyle *.py
 
 runS:
-	@$(PYTHON) server.py
+	@$(PYTHON) server.py $(ARGS)
 
 runC:
 	@$(PYTHON) client.py $(ARGS)
