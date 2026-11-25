@@ -1,3 +1,4 @@
 logging
 pycodestyle
 argparse
+tqdm

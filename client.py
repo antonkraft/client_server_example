@@ -3,6 +3,7 @@ import socket
 import argparse
 from pathlib import Path
 import struct
+from tqdm import tqdm
 
 log_level: int = logging.DEBUG
 
@@ -61,8 +62,15 @@ if __name__ == "__main__":
             client.sendall(struct.pack("!I", len(i_file_name)))
             client.sendall(i_file_name)
             with i_file.open("rb") as file:
-                while chunk := file.read(1024):
-                    client.sendall(chunk)
+                with tqdm(
+                        total=i_file.stat().st_size,
+                        unit='B',
+                        unit_scale=True,
+                        desc=i_file_name.decode()
+                ) as bar:
+                    while chunk := file.read(1024):
+                        client.sendall(chunk)
+                        bar.update(len(chunk))
 
             # Signal end of transmission
             client.shutdown(socket.SHUT_WR)
