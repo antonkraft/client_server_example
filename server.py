@@ -71,6 +71,9 @@ if __name__ == "__main__":
                                 "File %s already exists. Won't ovveride",
                                 o_file
                         )
+                        while connection.recv(1024):
+                            # Avoid abrupting connection by draining client
+                            pass
                     else:
                         # Store transmitted file
                         with o_file.open("wb") as file:
