@@ -30,7 +30,7 @@ clean:
 	@if exist $(INPUT_FILE) del /q $(INPUT_FILE)
 
 pep:
-	@$(PYTHON) -m pycodestyle *.py
+	@$(PYTHON) -m pycodestyle server.py client.py
 
 runS:
 	@$(PYTHON) server.py $(ARGS)

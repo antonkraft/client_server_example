@@ -7,14 +7,17 @@ PYTHON = $(VENV)/bin/python3
 PIP = $(VENV)/bin/pip3
 PY_REQ = requirements.txt
 
-.PHONY: setup install clean run
+.PHONY: setup install clean runS runC
 
 setup:
 	sudo $(APT) update
 	sudo $(APT) install python3
 
-run: $(VENV_ACT)
-	@$(PYTHON) main.py
+runC: $(VENV_ACT)
+	@$(PYTHON) client.py
+
+runS: $(VENV_ACT)
+	@$(PYTHON) server.py
 
 install: $(VENV_ACT)
 
