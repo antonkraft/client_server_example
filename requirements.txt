@@ -1,1 +1,4 @@
 logging
+pycodestyle
+argparse
+tqdm
